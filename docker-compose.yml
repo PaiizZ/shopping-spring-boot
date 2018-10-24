@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+  db:
+    container_name: shopping_db
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: "shopping"
+      MYSQL_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "password"
+  phpmyadmin:
+    container_name: shopping_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    links:
+      - db
+    expose:
+      - 80
+    ports:
+      - 9999:80
+
+
