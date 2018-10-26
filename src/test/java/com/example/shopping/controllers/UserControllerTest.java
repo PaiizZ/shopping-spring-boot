@@ -1,7 +1,7 @@
 package com.example.shopping.controllers;
 
 import com.example.shopping.entity.User;
-import com.example.shopping.services.UserServiceImpl;
+import com.example.shopping.services.user.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

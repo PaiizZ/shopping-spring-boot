@@ -1,4 +1,4 @@
-package com.example.shopping.services;
+package com.example.shopping.services.user;
 
 import com.example.shopping.entity.User;
 

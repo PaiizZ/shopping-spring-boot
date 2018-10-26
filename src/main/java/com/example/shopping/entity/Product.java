@@ -8,17 +8,13 @@ import javax.persistence.*;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "users")
-public class User {
+@Table(name = "products")
+public class Product {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "product_id")
     private Long id;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
+    private String name;
+    private float price;
 }

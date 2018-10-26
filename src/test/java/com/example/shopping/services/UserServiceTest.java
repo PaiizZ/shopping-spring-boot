@@ -3,7 +3,8 @@ package com.example.shopping.services;
 import com.example.shopping.entity.User;
 import com.example.shopping.exception.UserNotFoundException;
 import com.example.shopping.repositories.UserRepository;
-import org.assertj.core.api.Assertions;
+import com.example.shopping.services.user.UserService;
+import com.example.shopping.services.user.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
-import static org.hamcrest.core.Is.is;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {

@@ -1,7 +1,7 @@
 package com.example.shopping.controllers;
 
 import com.example.shopping.entity.User;
-import com.example.shopping.services.UserServiceImpl;
+import com.example.shopping.services.user.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
