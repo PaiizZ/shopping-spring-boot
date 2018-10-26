@@ -13,10 +13,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,12 +54,29 @@ public class UserControllerTest {
         result.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.username", is("paiizz")))
                 .andExpect(jsonPath("$.password", is("1234")));
-        verify(userService).createUser(any(User.class));
+        verify(userService, times(1)).createUser(any(User.class));
 
     }
 
 
     @Test
-    public void getAllUser() {
+    public void getAllUser() throws Exception{
+        //Arrange
+        User user1 = new User();
+        user1.setUsername("paiizz").setPassword("1234");
+        User user2 = new User();
+        user2.setUsername("trong").setPassword("1234");
+        when(userService.getAllUser()).thenReturn(Arrays.asList(user1,user2));
+
+        //Act
+        ResultActions result = mockMvc.perform(get("/api/v1/users"));
+
+        //Assert
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].username", is("paiizz")))
+                .andExpect(jsonPath("$[0].password", is("1234")))
+                .andExpect(jsonPath("$[1].username", is("trong")))
+                .andExpect(jsonPath("$[1].password", is("1234")));
+        verify(userService, times(1)).getAllUser();
     }
 }
