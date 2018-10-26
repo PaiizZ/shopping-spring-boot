@@ -1,7 +1,7 @@
 package com.example.shopping.controllers;
 
 import com.example.shopping.entity.User;
-import com.example.shopping.services.UserService;
+import com.example.shopping.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
@@ -33,7 +32,7 @@ public class UserControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -43,7 +42,7 @@ public class UserControllerTest {
         //Arrange
         User user = new User();
         user.setUsername("paiizz").setPassword("1234");
-        when(userService.createUser(any(User.class))).thenReturn(user);
+        when(userServiceImpl.createUser(any(User.class))).thenReturn(user);
 
         //Act
         ResultActions result = mockMvc.perform(post("/api/v1/users")
@@ -54,7 +53,7 @@ public class UserControllerTest {
         result.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.username", is("paiizz")))
                 .andExpect(jsonPath("$.password", is("1234")));
-        verify(userService, times(1)).createUser(any(User.class));
+        verify(userServiceImpl, times(1)).createUser(any(User.class));
 
     }
 
@@ -66,7 +65,7 @@ public class UserControllerTest {
         user1.setUsername("paiizz").setPassword("1234");
         User user2 = new User();
         user2.setUsername("trong").setPassword("1234");
-        when(userService.getAllUser()).thenReturn(Arrays.asList(user1,user2));
+        when(userServiceImpl.getAllUser()).thenReturn(Arrays.asList(user1,user2));
 
         //Act
         ResultActions result = mockMvc.perform(get("/api/v1/users"));
@@ -77,6 +76,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[0].password", is("1234")))
                 .andExpect(jsonPath("$[1].username", is("trong")))
                 .andExpect(jsonPath("$[1].password", is("1234")));
-        verify(userService, times(1)).getAllUser();
+        verify(userServiceImpl, times(1)).getAllUser();
     }
 }

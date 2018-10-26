@@ -1,36 +1,38 @@
 package com.example.shopping.services;
 
 import com.example.shopping.entity.User;
+import com.example.shopping.exception.UserNotFoundException;
 import com.example.shopping.repositories.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
-    private UserService userService;
+    private UserService userServiceImpl;
 
     @Mock
     private UserRepository userRepository;
 
     @Before
     public void setUp() throws Exception {
-        userService = new UserService(userRepository);
+        userServiceImpl = new UserServiceImpl(userRepository);
     }
 
     @Test
@@ -41,7 +43,7 @@ public class UserServiceTest {
         user.setUsername("paiizz").setPassword("1234");
 
         //Act
-        User userResponse = userService.createUser(user);
+        User userResponse = userServiceImpl.createUser(user);
 
         //Assert
         assertThat(userResponse.getUsername()).isEqualTo("paiizz");
@@ -59,7 +61,7 @@ public class UserServiceTest {
         when(userRepository.findAll()).thenReturn(Arrays.asList(user1,user2));
 
         //Act
-        List<User> listUserResponse = userService.getAllUser();
+        List<User> listUserResponse = userServiceImpl.getAllUser();
 
         //Assert
         assertThat(listUserResponse.get(0).getUsername()).isEqualTo("paiizz");
@@ -70,5 +72,31 @@ public class UserServiceTest {
         verify(userRepository, times(1)).findAll();
     }
 
+    @Test
+    public void getUser() {
+        //Arrange
+        User user = new User();
+        user.setUsername("paiizz").setPassword("1234");
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+
+        //Act
+        User userResponse = userServiceImpl.getUser(anyLong());
+
+        //Assert
+        assertThat(userResponse.getUsername()).isEqualTo("paiizz");
+        assertThat(userResponse.getPassword()).isEqualTo("1234");
+
+        verify(userRepository, times(1)).findById(anyLong());
+
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    public void findUserNotFound() {
+        //Act
+        Object userNotFoundException = userServiceImpl.getUser(anyLong());
+
+        //Assert
+        verify(userRepository, times(1)).findById(anyLong());
+    }
 
 }
