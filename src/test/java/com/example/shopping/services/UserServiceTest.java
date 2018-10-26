@@ -77,7 +77,7 @@ public class UserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
         //Act
-        User userResponse = userServiceImpl.getUser(anyLong());
+        User userResponse = userServiceImpl.getUserById(anyLong());
 
         //Assert
         assertThat(userResponse.getUsername()).isEqualTo("paiizz");
@@ -90,7 +90,7 @@ public class UserServiceTest {
     @Test(expected = UserNotFoundException.class)
     public void findUserNotFound() {
         //Act
-        Object userNotFoundException = userServiceImpl.getUser(anyLong());
+        Object userNotFoundException = userServiceImpl.getUserById(anyLong());
 
         //Assert
         verify(userRepository, times(1)).findById(anyLong());

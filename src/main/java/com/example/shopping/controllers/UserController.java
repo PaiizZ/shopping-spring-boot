@@ -4,6 +4,7 @@ import com.example.shopping.entity.User;
 import com.example.shopping.services.user.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +13,17 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UserController {
     private final UserServiceImpl userServiceImpl;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserController(UserServiceImpl userServiceImpl) {
+    public UserController(UserServiceImpl userServiceImpl, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userServiceImpl = userServiceImpl;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<User> signUp(@RequestBody User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user));
     }
 
     @PostMapping
@@ -29,7 +38,7 @@ public class UserController {
 
     @GetMapping("{id}")
     public User index(@PathVariable Long id) {
-        return userServiceImpl.getUser(id);
+        return userServiceImpl.getUserById(id);
     }
 
 }
