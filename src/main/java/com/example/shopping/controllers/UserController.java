@@ -21,13 +21,8 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<User> signUp(@RequestBody User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user));
-    }
-
-    @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body(userServiceImpl.createUser(user));
     }
 

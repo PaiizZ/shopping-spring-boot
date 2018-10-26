@@ -70,7 +70,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUser() {
+    public void getUserById() {
         //Arrange
         User user = new User();
         user.setUsername("paiizz").setPassword("1234");
@@ -88,7 +88,7 @@ public class UserServiceTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void findUserNotFound() {
+    public void getUserByIdNotFound() {
         //Act
         Object userNotFoundException = userServiceImpl.getUserById(anyLong());
 

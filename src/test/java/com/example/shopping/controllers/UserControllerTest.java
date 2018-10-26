@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
+@AutoConfigureMockMvc(secure = false)
 public class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -45,7 +48,7 @@ public class UserControllerTest {
         when(userServiceImpl.createUser(any(User.class))).thenReturn(user);
 
         //Act
-        ResultActions result = mockMvc.perform(post("/api/v1/users")
+        ResultActions result = mockMvc.perform(post("/api/v1/users/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(user)));
 
@@ -54,7 +57,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.username", is("paiizz")))
                 .andExpect(jsonPath("$.password", is("1234")));
         verify(userServiceImpl, times(1)).createUser(any(User.class));
-
     }
 
 
@@ -77,5 +79,22 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[1].username", is("trong")))
                 .andExpect(jsonPath("$[1].password", is("1234")));
         verify(userServiceImpl, times(1)).getAllUser();
+    }
+
+    @Test
+    public void getUserById() throws Exception{
+        //Arrange
+        User user = new User();
+        user.setUsername("paiizz").setPassword("1234");
+        when(userServiceImpl.getUserById(anyLong())).thenReturn(user);
+
+        //Act
+        ResultActions result = mockMvc.perform(get("/api/v1/users/1"));
+
+        //Assert
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", is("paiizz")))
+                .andExpect(jsonPath("$.password", is("1234")));
+        verify(userServiceImpl, times(1)).getUserById(anyLong());
     }
 }

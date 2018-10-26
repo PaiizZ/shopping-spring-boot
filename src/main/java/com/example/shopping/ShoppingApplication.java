@@ -28,53 +28,21 @@ public class ShoppingApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	CommandLineRunner demoDataUser(UserRepository userRepository) {
-		return args -> {
-			final List<User> users = Arrays.asList(
-					new User().setUsername("paiizz").setPassword("1234"),
-					new User().setUsername("trong").setPassword("1234"),
-					new User().setUsername("nack").setPassword("1234")
-			);
-			users.forEach(it -> {
-				userRepository.save(it);
-			});
 
-			userRepository.findAll().forEach(System.out::println);
-		};
-	}
-
-	@Bean
-	CommandLineRunner demoDataOrder(OrderRepository orderRepository) {
-		return args -> {
-			final List<Order> orders = Arrays.asList(
-					new Order().setUserId((long) 1).setNet(1000).setDiscount(0)
-					.setOrderProductList(Arrays.asList(
-							new OrderProduct().setProductId((long) 1)
-					))
-			);
-			orders.forEach(it -> {
-				orderRepository.save(it);
-			});
-
-			orderRepository.findAll().forEach(System.out::println);
-		};
-	}
-
-	@Bean
-	CommandLineRunner demoDataProduct(ProductRepository productRepository) {
-		return args -> {
-			final List<Product> products = Arrays.asList(
-					new Product().setName("Milk").setPrice(25),
-					new Product().setName("Chocolate").setPrice(50),
-					new Product().setName("Water").setPrice(10)
-			);
-			products.forEach(it -> {
-				productRepository.save(it);
-			});
-
-			productRepository.findAll().forEach(System.out::println);
-		};
-	}
+//	@Bean
+//	CommandLineRunner demoDataProduct(ProductRepository productRepository) {
+//		return args -> {
+//			final List<Product> products = Arrays.asList(
+//					new Product().setName("Milk").setPrice(25),
+//					new Product().setName("Chocolate").setPrice(50),
+//					new Product().setName("Water").setPrice(10)
+//			);
+//			products.forEach(it -> {
+//				productRepository.save(it);
+//			});
+//
+//			productRepository.findAll().forEach(System.out::println);
+//		};
+//	}
 
 }
