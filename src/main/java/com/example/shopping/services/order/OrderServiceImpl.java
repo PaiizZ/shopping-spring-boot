@@ -1,7 +1,6 @@
 package com.example.shopping.services.order;
 
 import com.example.shopping.entity.Order;
-import com.example.shopping.entity.User;
 import com.example.shopping.exception.OrderNotFoundException;
 import com.example.shopping.repositories.OrderRepository;
 
