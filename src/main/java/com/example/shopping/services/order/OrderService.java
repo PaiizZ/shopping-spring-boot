@@ -9,6 +9,6 @@ public interface OrderService {
     Order createOrder(Order order);
     Order getOrderById(Long id);
     List<Order> getAllOrder();
-    Order updateOrder(Long id, User user);
+    Order updateOrder(Long id, Order order);
     Order deleteOrder(Long id);
 }
