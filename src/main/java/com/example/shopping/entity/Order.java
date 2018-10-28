@@ -23,6 +23,6 @@ public class Order {
     @JoinColumn(name = "order_id")
     private List<OrderProduct> orderProductList;
 
-    private float net;
-    private float discount;
+    private Float net;
+    private Float discount;
 }
