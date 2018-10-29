@@ -3,10 +3,16 @@ package com.example.shopping.services.order;
 import com.example.shopping.entity.Order;
 import com.example.shopping.exception.OrderNotFoundException;
 import com.example.shopping.repositories.OrderRepository;
+import com.example.shopping.services.user.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderServiceImpl implements OrderService{
+    @Autowired
+    private UserServiceImpl userServiceImpl;
     private final OrderRepository orderRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository) {
@@ -14,7 +20,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order createOrder(Order order) {
+    public Order createOrder(Long user_id) {
+        Order order = new Order().setUser(userServiceImpl.getUserById(user_id)).setNet(0F).setDiscount(0F);
         return orderRepository.save(order);
     }
 

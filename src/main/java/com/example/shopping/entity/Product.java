@@ -17,8 +17,7 @@ public class Product {
     @Column
     private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "order_product_id")
+    @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<OrderProduct> orderProductList;
 
@@ -26,5 +25,5 @@ public class Product {
     private String name;
 
     @Column
-    private float price;
+    private Float price;
 }

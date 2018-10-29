@@ -20,8 +20,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private List<OrderProduct> orderProductList;
 
     @Column

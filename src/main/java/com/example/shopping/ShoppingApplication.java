@@ -44,7 +44,7 @@ public class ShoppingApplication {
 //			userRepository.findAll().forEach(System.out::println);
 //		};
 //	}
-//
+
 //	@Bean
 //	CommandLineRunner demoDataProduct(ProductRepository productRepository) {
 //		return args -> {
@@ -60,23 +60,4 @@ public class ShoppingApplication {
 //			productRepository.findAll().forEach(System.out::println);
 //		};
 //	}
-//
-//	@Bean
-//	CommandLineRunner demoDataOrder(OrderRepository orderRepository) {
-//		return args -> {
-//			final List<Order> orders = Arrays.asList(
-//					new Order().setUserId(1L).setDiscount(0F).setNet(1000F).setOrderProductList(
-//							Arrays.asList(
-//									new OrderProduct().setProductId(2L)
-//							)
-//					)
-//			);
-//			orders.forEach(it -> {
-//				orderRepository.save(it);
-//			});
-//			orderRepository.findAll().forEach(System.out::println);
-//			orderRepository.findByOrderId(1L).forEach(System.out::println);
-//		};
-//	}
-
 }
