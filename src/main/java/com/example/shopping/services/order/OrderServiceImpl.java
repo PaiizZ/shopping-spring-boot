@@ -8,8 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.example.shopping.configs.constant.OrderConstants.DISCOUNT_PERCENT;
+import static com.example.shopping.configs.constant.OrderConstants.DISCOUNT_THRESHOLD;
+
 @Service
 public class OrderServiceImpl implements OrderService{
+
+
     @Autowired
     private UserServiceImpl userServiceImpl;
     private final OrderRepository orderRepository;
@@ -21,6 +26,9 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order createOrder(Long user_id) {
         Order order = new Order().setUser(userServiceImpl.getUserById(user_id)).setPrice(0F).setDiscount(0F);
+        if(this.getCountOrderByUserId(order.getUser().getId()) > DISCOUNT_THRESHOLD ){
+            order.setDiscount(DISCOUNT_PERCENT);
+        }
         return orderRepository.save(order);
     }
 
@@ -29,28 +37,6 @@ public class OrderServiceImpl implements OrderService{
         return orderRepository.findAllByUserId(id);
     }
 
-//    @Override
-//    public List<Order> getAllOrder() {
-//        return orderRepository.findAll();
-//    }
-//
-//    @Override
-//    public Order updateOrder(Long id, Order order) {
-//        return orderRepository.findById(id).map(it -> {
-//            it.setOrderProductList(order.getOrderProductList());
-//            it.setDiscount(order.getDiscount());
-//            it.setNet(order.getNet());
-//            return orderRepository.save(it);
-//        }).orElseThrow(() -> new OrderNotFoundException("Order Not Found."));
-//    }
-//
-//    @Override
-//    public Order deleteOrder(Long id) {
-//        return orderRepository.findById(id).map(it -> {
-//            orderRepository.delete(it);
-//            return it;
-//        }).orElseThrow(() -> new OrderNotFoundException("Order Not Found."));
-//    }
 
     public Long getCountOrderByUserId(Long id){
         return orderRepository.countByUserId(id);
