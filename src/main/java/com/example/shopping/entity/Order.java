@@ -13,16 +13,20 @@ import java.util.List;
 public class Order {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "order_id")
+    @Column
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private List<OrderProduct> orderProductList;
 
+    @Column
     private Float net;
+
+    @Column
     private Float discount;
 }

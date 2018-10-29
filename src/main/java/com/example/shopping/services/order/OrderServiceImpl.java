@@ -31,7 +31,6 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order updateOrder(Long id, Order order) {
         return orderRepository.findById(id).map(it -> {
-            it.setUserId(order.getId());
             it.setOrderProductList(order.getOrderProductList());
             it.setDiscount(order.getDiscount());
             it.setNet(order.getNet());
