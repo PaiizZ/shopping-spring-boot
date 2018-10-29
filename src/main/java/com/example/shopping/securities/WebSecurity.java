@@ -1,7 +1,6 @@
-package com.example.shopping.security;
+package com.example.shopping.securities;
 
 import com.example.shopping.services.user.UserService;
-import com.example.shopping.services.user.UserServiceImpl;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 
-import static com.example.shopping.config.constant.SecurityConstants.SIGN_UP_URL;
+import static com.example.shopping.configs.constant.SecurityConstants.SIGN_UP_URL;
 
 
 @EnableWebSecurity

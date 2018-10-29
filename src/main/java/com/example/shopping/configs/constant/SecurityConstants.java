@@ -1,4 +1,4 @@
-package com.example.shopping.config.constant;
+package com.example.shopping.configs.constant;
 
 public class SecurityConstants {
     public static final String SECRET = "SecretKeyToGenJWTs";

@@ -1,6 +1,6 @@
 package com.example.shopping.controllers;
 
-import com.example.shopping.entity.Product;
+import com.example.shopping.entities.Product;
 import com.example.shopping.services.product.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createUser(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productServiceImpl.createProduct(product));
     }
 }

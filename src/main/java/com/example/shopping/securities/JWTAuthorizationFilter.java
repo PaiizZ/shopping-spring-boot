@@ -1,4 +1,4 @@
-package com.example.shopping.security;
+package com.example.shopping.securities;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.example.shopping.config.constant.SecurityConstants.HEADER_STRING;
-import static com.example.shopping.config.constant.SecurityConstants.SECRET;
-import static com.example.shopping.config.constant.SecurityConstants.TOKEN_PREFIX;
+import static com.example.shopping.configs.constant.SecurityConstants.HEADER_STRING;
+import static com.example.shopping.configs.constant.SecurityConstants.SECRET;
+import static com.example.shopping.configs.constant.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 

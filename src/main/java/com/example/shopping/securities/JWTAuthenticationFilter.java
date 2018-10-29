@@ -1,7 +1,7 @@
-package com.example.shopping.security;
+package com.example.shopping.securities;
 
 import com.auth0.jwt.JWT;
-import com.example.shopping.entity.User;
+import com.example.shopping.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static com.example.shopping.config.constant.SecurityConstants.*;
+import static com.example.shopping.configs.constant.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;

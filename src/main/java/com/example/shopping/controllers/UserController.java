@@ -1,6 +1,6 @@
 package com.example.shopping.controllers;
 
-import com.example.shopping.entity.User;
+import com.example.shopping.entities.User;
 import com.example.shopping.services.user.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public User index(@PathVariable Long id) {
+    public User getUserById(@PathVariable Long id) {
         return userServiceImpl.getUserById(id);
     }
 

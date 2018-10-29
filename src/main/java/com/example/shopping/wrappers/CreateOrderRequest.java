@@ -1,4 +1,4 @@
-package com.example.shopping.Wrapper;
+package com.example.shopping.wrappers;
 
 import lombok.Data;
 

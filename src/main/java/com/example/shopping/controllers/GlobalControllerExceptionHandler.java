@@ -1,6 +1,6 @@
 package com.example.shopping.controllers;
 
-import com.example.shopping.exception.UserNotFoundException;
+import com.example.shopping.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

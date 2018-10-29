@@ -1,6 +1,6 @@
 package com.example.shopping.services.user;
 
-import com.example.shopping.entity.User;
+import com.example.shopping.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

@@ -1,8 +1,7 @@
 package com.example.shopping.services.product;
 
-import com.example.shopping.entity.Order;
-import com.example.shopping.entity.Product;
-import com.example.shopping.exception.ProductNotFoundException;
+import com.example.shopping.entities.Product;
+import com.example.shopping.exceptions.ProductNotFoundException;
 import com.example.shopping.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 

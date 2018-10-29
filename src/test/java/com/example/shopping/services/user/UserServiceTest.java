@@ -1,10 +1,8 @@
-package com.example.shopping.services;
+package com.example.shopping.services.user;
 
-import com.example.shopping.entity.User;
-import com.example.shopping.exception.UserNotFoundException;
+import com.example.shopping.entities.User;
+import com.example.shopping.exceptions.UserNotFoundException;
 import com.example.shopping.repositories.UserRepository;
-import com.example.shopping.services.user.UserService;
-import com.example.shopping.services.user.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

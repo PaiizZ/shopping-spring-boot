@@ -1,5 +1,6 @@
-package com.example.shopping.entity;
+package com.example.shopping.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -9,23 +10,20 @@ import java.util.List;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "orders")
-public class Order {
+@Table(name = "products")
+public class Product {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<OrderProduct> orderProductList;
 
     @Column
-    private Float net;
+    private String name;
 
     @Column
-    private Float discount;
+    private Float price;
 }
