@@ -31,10 +31,10 @@ public class ProductServiceImplTest {
     @Test
     public void createProduct() {
         //Arrange
-        when(productRepository.save(any(Product.class))).thenReturn(this.product);
+        when(productRepository.save(any())).thenReturn(this.product);
 
         //Act
-        Product productResponse = productService.createProduct(any(Product.class));
+        Product productResponse = productService.createProduct(this.product);
 
         //Assert
         assertThat(productResponse.getName()).isEqualTo("Water");

@@ -2,8 +2,7 @@ package com.example.shopping.services.order;
 
 import com.example.shopping.entities.Order;
 import com.example.shopping.repositories.OrderRepository;
-import com.example.shopping.services.user.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.shopping.services.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +13,17 @@ import static com.example.shopping.configs.constant.OrderConstants.DISCOUNT_THRE
 @Service
 public class OrderServiceImpl implements OrderService{
 
-
-    @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userServiceImpl;
     private final OrderRepository orderRepository;
-
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(UserService userServiceImpl, OrderRepository orderRepository) {
+        this.userServiceImpl = userServiceImpl;
         this.orderRepository = orderRepository;
     }
 
     @Override
     public Order createOrder(Long user_id) {
         Order order = new Order().setUser(userServiceImpl.getUserById(user_id)).setPrice(0F).setDiscount(0F);
-        if(this.getCountOrderByUserId(order.getUser().getId()) > DISCOUNT_THRESHOLD ){
+        if (this.getCountOrderByUserId(order.getUser().getId()) > DISCOUNT_THRESHOLD ) {
             order.setDiscount(DISCOUNT_PERCENT);
         }
         return orderRepository.save(order);

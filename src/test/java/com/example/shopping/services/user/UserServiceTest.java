@@ -34,8 +34,7 @@ public class UserServiceTest {
     public void createUserSuccessfully() throws Exception {
         //Arrange
         doAnswer(returnsFirstArg()).when(userRepository).save(any(User.class));
-        User user = new User();
-        user.setUsername("paiizz").setPassword("1234");
+        User user = new User().setUsername("paiizz").setPassword("1234");
 
         //Act
         User userResponse = userService.createUser(user);
