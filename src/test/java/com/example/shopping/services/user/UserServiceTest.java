@@ -20,14 +20,14 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
-    private UserService userServiceImpl;
+    private UserService userService;
 
     @Mock
     private UserRepository userRepository;
 
     @Before
     public void setUp() throws Exception {
-        userServiceImpl = new UserServiceImpl(userRepository);
+        userService = new UserServiceImpl(userRepository);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class UserServiceTest {
         user.setUsername("paiizz").setPassword("1234");
 
         //Act
-        User userResponse = userServiceImpl.createUser(user);
+        User userResponse = userService.createUser(user);
 
         //Assert
         assertThat(userResponse.getUsername()).isEqualTo("paiizz");
@@ -56,7 +56,7 @@ public class UserServiceTest {
         when(userRepository.findAll()).thenReturn(Arrays.asList(user1,user2));
 
         //Act
-        List<User> listUserResponse = userServiceImpl.getAllUser();
+        List<User> listUserResponse = userService.getAllUser();
 
         //Assert
         assertThat(listUserResponse.get(0).getUsername()).isEqualTo("paiizz");
@@ -75,20 +75,19 @@ public class UserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
         //Act
-        User userResponse = userServiceImpl.getUserById(anyLong());
+        User userResponse = userService.getUserById(anyLong());
 
         //Assert
         assertThat(userResponse.getUsername()).isEqualTo("paiizz");
         assertThat(userResponse.getPassword()).isEqualTo("1234");
 
         verify(userRepository, times(1)).findById(anyLong());
-
     }
 
     @Test(expected = UserNotFoundException.class)
     public void getUserByIdNotFound() {
         //Act
-        Object userNotFoundException = userServiceImpl.getUserById(anyLong());
+        Object userNotFoundException = userService.getUserById(anyLong());
 
         //Assert
         verify(userRepository, times(1)).findById(anyLong());

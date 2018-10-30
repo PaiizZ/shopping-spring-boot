@@ -2,8 +2,6 @@ package com.example.shopping.services.order;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class OrderServiceImplTest {
 
     @Test
