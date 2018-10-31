@@ -6,7 +6,6 @@ import com.example.shopping.entities.Product;
 import com.example.shopping.entities.User;
 import com.example.shopping.repositories.OrderRepository;
 import com.example.shopping.services.user.UserService;
-import org.assertj.core.data.Index;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,9 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -34,9 +36,8 @@ public class OrderServiceImplTest {
 
     private User user;
     private Order order;
-    private OrderProduct orderProduct = new OrderProduct().setOrder(this.order).setProduct(
-            new Product().setName("Water").setPrice(10F)
-    ).setAmount(2).setPrice(10F);
+    private OrderProduct orderProductPizza, orderProductWater;
+    private List<Order> orderList = new ArrayList<>();
 
     @Before
     public void setUp() {
@@ -44,37 +45,51 @@ public class OrderServiceImplTest {
         orderServiceSpy = Mockito.spy(orderService);
 
         this.user = new User().setUsername("paiizz").setPassword("1234");
+
+        this.orderProductPizza = new OrderProduct().setOrder(this.order).setProduct(
+                new Product().setName("Pizza").setPrice(299F)
+        ).setAmount(1).setPrice(299F);
+
+        this.orderProductWater = new OrderProduct().setOrder(this.order).setProduct(
+                new Product().setName("Water").setPrice(10F)
+        ).setAmount(2).setPrice(10F);
+
         this.order = new Order().setUser(this.user).setOrderProductList(
                 Arrays.asList(
-                        new OrderProduct().setOrder(this.order).setProduct(
-                                new Product().setName("Pizza").setPrice(299F)
-                        ).setAmount(2).setPrice(299F),
-                        new OrderProduct().setOrder(this.order).setProduct(
-                                new Product().setName("Water").setPrice(10F)
-                        ).setAmount(2).setPrice(10F)
+                        this.orderProductPizza,
+                        this.orderProductWater
                 )
         )
                 .setPrice(618F)
                 .setDiscount(0F);
+
+        this.orderList.add(this.order);
     }
 
     @Test
     public void createOrder() {
         //Arrange
         when(userService.getUserById(any())).thenReturn(this.user);
-        doReturn(1L).when(orderServiceSpy).getCountOrderByUserId(any());
+        doReturn(2L).when(orderServiceSpy).getCountOrderByUserId(any());
         when(orderRepository.save(any())).thenReturn(this.order);
 
         //Act
-        Order orderResponse = orderService.createOrder(anyLong());
+        Order orderResponse = orderServiceSpy.createOrder(anyLong());
 
         //Assert
+        assertEquals(orderResponse, orderRepository.save(any()));
+
+        assertThat(orderResponse).isNotNull();
+
         assertThat(orderResponse.getUser().getUsername()).isEqualTo("paiizz");
         assertThat(orderResponse.getUser().getPassword()).isEqualTo("1234");
 
+        assertThat(orderResponse.getOrderProductList()).contains(this.orderProductPizza);
+        assertThat(orderResponse.getOrderProductList()).contains(this.orderProductWater);
+
         assertThat(orderResponse.getOrderProductList().get(0).getProduct().getName()).isEqualTo("Pizza");
         assertThat(orderResponse.getOrderProductList().get(0).getProduct().getPrice()).isEqualTo(299F);
-        assertThat(orderResponse.getOrderProductList().get(0).getAmount()).isEqualTo(2);
+        assertThat(orderResponse.getOrderProductList().get(0).getAmount()).isEqualTo(1);
         assertThat(orderResponse.getOrderProductList().get(0).getPrice()).isEqualTo(299F);
 
         assertThat(orderResponse.getOrderProductList().get(1).getProduct().getName()).isEqualTo("Water");
@@ -85,12 +100,48 @@ public class OrderServiceImplTest {
         assertThat(orderResponse.getPrice()).isEqualTo(618F);
         assertThat(orderResponse.getDiscount()).isEqualTo(0F);
 
-        verify(orderRepository, times(1)).save(any());
+        verify(orderRepository, times(2)).save(any());
 
     }
 
     @Test
     public void getOrderByUserId() {
+        //Arrange
+        when(orderRepository.findAllByUserId(anyLong())).thenReturn(this.orderList);
+
+        //Act
+        List<Order> orderListResponse = orderService.getOrderByUserId(anyLong());
+
+        //Assert
+        assertThat(orderListResponse).isNotNull();
+
+        assertThat(orderListResponse).contains(this.order);
+
+        assertThat(orderListResponse.get(0).getUser()).isNotNull();
+        assertThat(orderListResponse.get(0).getUser()).isEqualTo(this.user);
+        assertThat(orderListResponse.get(0).getUser()).isEqualToComparingFieldByField(this.user);
+        assertThat(orderListResponse.get(0).getUser()).isEqualToIgnoringNullFields(this.user);
+        assertThat(orderListResponse.get(0).getUser().getUsername()).isEqualTo("paiizz");
+        assertThat(orderListResponse.get(0).getUser().getPassword()).isEqualTo("1234");
+
+        assertThat(orderListResponse.get(0).getOrderProductList()).contains(this.orderProductPizza);
+        assertThat(orderListResponse.get(0).getOrderProductList()).contains(this.orderProductWater);
+
+        assertThat(orderListResponse.get(0).getOrderProductList().get(0).getProduct().getName()).isEqualTo("Pizza");
+        assertThat(orderListResponse.get(0).getOrderProductList().get(0).getProduct().getPrice()).isEqualTo(299F);
+        assertThat(orderListResponse.get(0).getOrderProductList().get(0).getAmount()).isEqualTo(1);
+        assertThat(orderListResponse.get(0).getOrderProductList().get(0).getPrice()).isEqualTo(299F);
+
+        assertThat(orderListResponse.get(0).getOrderProductList().get(1).getProduct().getName()).isEqualTo("Water");
+        assertThat(orderListResponse.get(0).getOrderProductList().get(1).getProduct().getPrice()).isEqualTo(10F);
+        assertThat(orderListResponse.get(0).getOrderProductList().get(1).getAmount()).isEqualTo(2);
+        assertThat(orderListResponse.get(0).getOrderProductList().get(1).getPrice()).isEqualTo(10F);
+
+        assertThat(orderListResponse.get(0).getPrice()).isEqualTo(618F);
+        assertThat(orderListResponse.get(0).getDiscount()).isEqualTo(0F);
+
+        verify(orderRepository, times(1)).findAllByUserId(anyLong());
+
     }
 
     @Test

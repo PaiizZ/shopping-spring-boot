@@ -26,12 +26,12 @@ public class UserServiceTest {
     private UserRepository userRepository;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         userService = new UserServiceImpl(userRepository);
     }
 
     @Test
-    public void createUserSuccessfully() throws Exception {
+    public void createUserSuccessfully() {
         //Arrange
         doAnswer(returnsFirstArg()).when(userRepository).save(any(User.class));
         User user = new User().setUsername("paiizz").setPassword("1234");
@@ -46,7 +46,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getAllUser() throws Exception{
+    public void getAllUser() {
         //Arrange
         User user1 = new User();
         user1.setUsername("paiizz").setPassword("1234");
