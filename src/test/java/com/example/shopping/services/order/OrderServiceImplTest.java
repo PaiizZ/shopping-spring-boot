@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -77,7 +76,7 @@ public class OrderServiceImplTest {
         Order orderResponse = orderServiceSpy.createOrder(anyLong());
 
         //Assert
-        assertEquals(orderResponse, orderRepository.save(any()));
+        assertThat(orderRepository.save(any(Order.class))).isEqualTo(orderResponse);
 
         assertThat(orderResponse).isNotNull();
 
@@ -101,7 +100,6 @@ public class OrderServiceImplTest {
         assertThat(orderResponse.getDiscount()).isEqualTo(0F);
 
         verify(orderRepository, times(2)).save(any());
-
     }
 
     @Test
@@ -146,5 +144,18 @@ public class OrderServiceImplTest {
 
     @Test
     public void getCountOrderByUserId() {
+        //Arrange
+        when(orderRepository.countByUserId(anyLong())).thenReturn(3L);
+
+        //Act
+        Long count = orderService.getCountOrderByUserId(anyLong());
+
+        //Assert
+        assertThat(orderRepository.countByUserId(anyLong())).isEqualTo(count);
+
+        assertThat(count).isEqualTo(3L);
+
+        verify(orderRepository, times(2)).countByUserId(anyLong());
+
     }
 }
