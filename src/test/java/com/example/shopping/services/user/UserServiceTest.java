@@ -33,8 +33,9 @@ public class UserServiceTest {
     @Test
     public void createUserSuccess() {
         //Arrange
-        doAnswer(returnsFirstArg()).when(userRepository).save(any(User.class));
         User user = new User().setUsername("paiizz").setPassword("1234");
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
 
         //Act
         User userResponse = userService.createUser(user);

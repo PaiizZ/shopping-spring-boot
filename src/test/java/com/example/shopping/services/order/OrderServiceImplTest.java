@@ -35,7 +35,7 @@ public class OrderServiceImplTest {
 
     private User user;
     private Order order;
-    private OrderProduct orderProductPizza, orderProductWater;
+    private OrderProduct orderProductPizza, orderProductWater, orderProductChocolate;
     private List<Order> orderList = new ArrayList<>();
 
     @Before
@@ -69,7 +69,7 @@ public class OrderServiceImplTest {
     public void createOrder() {
         //Arrange
         when(userService.getUserById(any())).thenReturn(this.user);
-        doReturn(2L).when(orderServiceSpy).getCountOrderByUserId(any());
+        doReturn(4L).when(orderServiceSpy).getCountOrderByUserId(any());
         when(orderRepository.save(any())).thenReturn(this.order);
 
         //Act
