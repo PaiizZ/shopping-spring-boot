@@ -1,6 +1,6 @@
 package com.example.shopping.controllers;
 
-import com.example.shopping.entities.User;
+import com.example.shopping.entities.shopping.User;
 import com.example.shopping.services.user.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

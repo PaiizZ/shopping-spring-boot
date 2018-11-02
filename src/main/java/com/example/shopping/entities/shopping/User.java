@@ -1,4 +1,4 @@
-package com.example.shopping.entities;
+package com.example.shopping.entities.shopping;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

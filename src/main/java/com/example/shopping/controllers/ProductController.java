@@ -1,6 +1,6 @@
 package com.example.shopping.controllers;
 
-import com.example.shopping.entities.Product;
+import com.example.shopping.entities.shopping.Product;
 import com.example.shopping.services.product.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
