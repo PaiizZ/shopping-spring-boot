@@ -103,7 +103,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void getOrderByUserId() {
+    public void getOrderByUserIdSuccess() {
         //Arrange
         when(orderRepository.findAllByUserId(anyLong())).thenReturn(this.orderList);
 
@@ -143,7 +143,20 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void getCountOrderByUserId() {
+    public void getOrderByUserIdFailed() {
+        //Arrange
+        when(orderRepository.findAllByUserId(anyLong())).thenReturn(this.orderList);
+
+        //Act
+        List<Order> orderListResponse = orderService.getOrderByUserId(anyLong());
+
+        //Assert
+        assertThat(orderListResponse).isNotNull();
+        assertThat(orderListResponse).isNotEqualTo(new ArrayList<Order>());
+    }
+
+    @Test
+    public void getCountOrderByUserIdSuccess() {
         //Arrange
         when(orderRepository.countByUserId(anyLong())).thenReturn(3L);
 
@@ -157,5 +170,19 @@ public class OrderServiceImplTest {
 
         verify(orderRepository, times(2)).countByUserId(anyLong());
 
+    }
+
+    @Test
+    public void getCountOrderByUserIdFailed() {
+        //Arrange
+        when(orderRepository.countByUserId(anyLong())).thenReturn(3L);
+
+        //Act
+        Long count = orderService.getCountOrderByUserId(anyLong());
+
+        //Assert
+        assertThat(count).isNotEqualTo(2L);
+
+        verify(orderRepository, times(1)).countByUserId(anyLong());
     }
 }

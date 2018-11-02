@@ -31,7 +31,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserSuccessfully() {
+    public void createUserSuccess() {
         //Arrange
         doAnswer(returnsFirstArg()).when(userRepository).save(any(User.class));
         User user = new User().setUsername("paiizz").setPassword("1234");
