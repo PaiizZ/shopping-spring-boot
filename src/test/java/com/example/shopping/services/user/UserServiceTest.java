@@ -8,13 +8,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -93,4 +95,30 @@ public class UserServiceTest {
         verify(userRepository, times(1)).findById(anyLong());
     }
 
+    @Test
+    public void loadUserByUsername() {
+        //Arrange
+        User user = new User().setUsername("paiizz").setPassword("1234");
+        when(userRepository.findByUsername(anyString())).thenReturn(user);
+
+        //Act
+        UserDetails userResponse = userService.loadUserByUsername(anyString());
+
+        //Assert
+        assertThat(userResponse.getUsername()).isEqualTo("paiizz");
+        assertThat(userResponse.getPassword()).isEqualTo("1234");
+        verify(userRepository, times(1)).findByUsername(anyString());
+    }
+
+    @Test(expected = UsernameNotFoundException.class)
+    public void loadUserByUsernameNotFound() {
+        //Arrange
+        when(userRepository.findByUsername(anyString())).thenReturn(null);
+
+        //Act
+        UserDetails userResponse = userService.loadUserByUsername(anyString());
+
+        //Assert
+        verify(userRepository, times(1)).findByUsername(anyString());
+    }
 }
