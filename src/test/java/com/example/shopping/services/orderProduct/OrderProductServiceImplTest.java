@@ -5,6 +5,7 @@ import com.example.shopping.entities.product.OrderProduct;
 import com.example.shopping.entities.product.Product;
 import com.example.shopping.entities.product.User;
 import com.example.shopping.repositories.product.OrderProductRepository;
+import com.example.shopping.services.coupon.CouponService;
 import com.example.shopping.services.product.ProductService;
 import com.example.shopping.wrappers.CreateOrderRequest;
 import org.junit.Before;
@@ -28,13 +29,15 @@ public class OrderProductServiceImplTest {
     @Mock
     private ProductService productService;
 
+    @Mock
+    private CouponService couponService;
 
     @Mock
-    OrderProductRepository orderProductRepository;
+    private OrderProductRepository orderProductRepository;
 
     @Before
     public void setUp() {
-        orderProductService = new OrderProductServiceImpl(orderProductRepository, productService);
+        orderProductService = new OrderProductServiceImpl(orderProductRepository, productService, couponService);
     }
 
     @Test

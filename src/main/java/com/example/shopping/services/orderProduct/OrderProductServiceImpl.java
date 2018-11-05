@@ -1,5 +1,6 @@
 package com.example.shopping.services.orderProduct;
 
+import com.example.shopping.services.coupon.CouponService;
 import com.example.shopping.services.product.ProductService;
 import com.example.shopping.wrappers.CreateOrderRequest;
 import com.example.shopping.entities.product.Order;
@@ -15,11 +16,14 @@ public class OrderProductServiceImpl implements OrderProductService {
 
     private ProductService productServiceImpl;
 
+    private CouponService couponServiceImpl;
+
     private final OrderProductRepository orderProductRepository;
 
-    public OrderProductServiceImpl(OrderProductRepository orderProductRepository, ProductService productServiceImpl) {
+    public OrderProductServiceImpl(OrderProductRepository orderProductRepository, ProductService productServiceImpl, CouponService couponServiceImpl) {
         this.orderProductRepository = orderProductRepository;
         this.productServiceImpl = productServiceImpl;
+        this.couponServiceImpl = couponServiceImpl;
     }
 
     @Override
@@ -35,6 +39,6 @@ public class OrderProductServiceImpl implements OrderProductService {
             order.setPrice(order.getPrice() + (orderProduct.getAmount() * orderProduct.getPrice()) );
             orderProductRepository.save(orderProduct);
         }
-        return order;
+        return couponServiceImpl.setBahtDiscount(order,createOrderRequest);
     }
 }
