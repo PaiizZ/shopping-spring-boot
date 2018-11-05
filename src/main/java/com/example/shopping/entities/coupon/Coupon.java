@@ -1,4 +1,4 @@
-package com.example.coupon.entities;
+package com.example.shopping.entities.coupon;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -19,10 +19,10 @@ public class Coupon {
     private String code;
 
     @Column
-    private Float type;
+    private String type;
 
     @Column
-    private Float condition;
+    private Float threshold;
 
     @Column
     private Float price;

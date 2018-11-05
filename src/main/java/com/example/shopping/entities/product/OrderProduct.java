@@ -1,4 +1,4 @@
-package com.example.shopping.entities;
+package com.example.shopping.entities.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

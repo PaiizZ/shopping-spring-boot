@@ -1,10 +1,10 @@
 package com.example.shopping.services.order;
 
-import com.example.shopping.entities.Order;
-import com.example.shopping.entities.OrderProduct;
-import com.example.shopping.entities.Product;
-import com.example.shopping.entities.User;
-import com.example.shopping.repositories.OrderRepository;
+import com.example.shopping.entities.product.Order;
+import com.example.shopping.entities.product.OrderProduct;
+import com.example.shopping.entities.product.Product;
+import com.example.shopping.entities.product.User;
+import com.example.shopping.repositories.product.OrderRepository;
 import com.example.shopping.services.user.UserService;
 import org.junit.Before;
 import org.junit.Test;

@@ -20,55 +20,61 @@ import java.util.Map;
 @Configuration
 @PropertySource({"classpath:multiple-db.properties"})
 @EnableJpaRepositories(
-        basePackages = "com.example.shopping.repositories.product",
-        entityManagerFactoryRef = "productEntityManager",
-        transactionManagerRef = "productTransactionManager"
+        basePackages = "com.example.shopping.repositories.coupon",
+        entityManagerFactoryRef = "couponEntityManager",
+        transactionManagerRef = "couponTransactionManager"
 )
-public class ShoppingConfig {
+public class CouponConfig {
+
     @Autowired
-    private Environment env;
+    private Environment environment;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean productEntityManager() {
+    @Primary
+    public LocalContainerEntityManagerFactoryBean couponEntityManager() {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(productDataSource());
+        em.setDataSource(couponDataSource());
         em.setPackagesToScan(
-                new String[] { "com.example.shopping.entities.product" });
+                new String[] { "com.example.shopping.entities.coupon" });
 
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        HibernateJpaVendorAdapter vendorAdapter
+                = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto",
-                env.getProperty("hibernate.hbm2ddl.auto"));
+                environment.getProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.dialect",
-                env.getProperty("hibernate.dialect"));
+                environment.getProperty("hibernate.dialect"));
         em.setJpaPropertyMap(properties);
 
         return em;
     }
 
+    @Primary
     @Bean
-    public DataSource productDataSource() {
+    public DataSource couponDataSource() {
 
         DriverManagerDataSource dataSource
                 = new DriverManagerDataSource();
         dataSource.setDriverClassName(
-                env.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(env.getProperty("product.jdbc.url"));
-        dataSource.setUsername(env.getProperty("jdbc.user"));
-        dataSource.setPassword(env.getProperty("jdbc.pass"));
+                environment.getProperty("jdbc.driverClassName"));
+        dataSource.setUrl(environment.getProperty("coupon.jdbc.url"));
+        dataSource.setUsername(environment.getProperty("jdbc.user"));
+        dataSource.setPassword(environment.getProperty("jdbc.pass"));
 
         return dataSource;
     }
 
+    @Primary
     @Bean
-    public PlatformTransactionManager productTransactionManager() {
+    public PlatformTransactionManager couponTransactionManager() {
 
         JpaTransactionManager transactionManager
                 = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(
-                productEntityManager().getObject());
+                couponEntityManager().getObject());
         return transactionManager;
     }
+
 }

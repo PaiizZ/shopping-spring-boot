@@ -1,6 +1,6 @@
 package com.example.shopping.services.order;
 
-import com.example.shopping.entities.Order;
+import com.example.shopping.entities.product.Order;
 
 import java.util.List;
 

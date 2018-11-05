@@ -1,6 +1,6 @@
-package com.example.shopping.repositories;
+package com.example.shopping.repositories.product;
 
-import com.example.shopping.entities.OrderProduct;
+import com.example.shopping.entities.product.OrderProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderProductRepository extends JpaRepository<OrderProduct, Long> {

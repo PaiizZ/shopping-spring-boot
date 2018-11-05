@@ -1,7 +1,7 @@
 package com.example.shopping.services.order;
 
-import com.example.shopping.entities.Order;
-import com.example.shopping.repositories.OrderRepository;
+import com.example.shopping.entities.product.Order;
+import com.example.shopping.repositories.product.OrderRepository;
 import com.example.shopping.services.user.UserService;
 import org.springframework.stereotype.Service;
 

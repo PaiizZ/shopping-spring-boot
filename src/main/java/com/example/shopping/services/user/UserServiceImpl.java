@@ -1,8 +1,8 @@
 package com.example.shopping.services.user;
 
-import com.example.shopping.entities.User;
+import com.example.shopping.entities.product.User;
 import com.example.shopping.exceptions.UserNotFoundException;
-import com.example.shopping.repositories.UserRepository;
+import com.example.shopping.repositories.product.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,7 +1,7 @@
 package com.example.shopping.services.product;
 
-import com.example.shopping.entities.Product;
-import com.example.shopping.repositories.ProductRepository;
+import com.example.shopping.entities.product.Product;
+import com.example.shopping.repositories.product.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
