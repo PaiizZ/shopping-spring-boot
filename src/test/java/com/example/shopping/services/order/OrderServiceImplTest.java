@@ -60,7 +60,7 @@ public class OrderServiceImplTest {
                 )
         )
                 .setPrice(618F)
-                .setDiscount(0F);
+                .setPercentDiscount(0F);
 
         this.orderList.add(this.order);
     }
@@ -97,7 +97,7 @@ public class OrderServiceImplTest {
         assertThat(orderResponse.getOrderProductList().get(1).getPrice()).isEqualTo(10F);
 
         assertThat(orderResponse.getPrice()).isEqualTo(618F);
-        assertThat(orderResponse.getDiscount()).isEqualTo(0F);
+        assertThat(orderResponse.getPercentDiscount()).isEqualTo(0F);
 
         verify(orderRepository, times(2)).save(any());
     }
@@ -136,7 +136,7 @@ public class OrderServiceImplTest {
         assertThat(orderListResponse.get(0).getOrderProductList().get(1).getPrice()).isEqualTo(10F);
 
         assertThat(orderListResponse.get(0).getPrice()).isEqualTo(618F);
-        assertThat(orderListResponse.get(0).getDiscount()).isEqualTo(0F);
+        assertThat(orderListResponse.get(0).getPercentDiscount()).isEqualTo(0F);
 
         verify(orderRepository, times(1)).findAllByUserId(anyLong());
 

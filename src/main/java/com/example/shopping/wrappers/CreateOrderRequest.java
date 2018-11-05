@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class CreateOrderRequest {
+    private String codeDiscount;
     private List<ProductRequest> productRequestList;
 
     @Data

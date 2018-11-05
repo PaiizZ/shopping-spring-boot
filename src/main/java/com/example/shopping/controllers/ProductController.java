@@ -5,10 +5,7 @@ import com.example.shopping.services.product.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -23,5 +20,10 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productServiceImpl.createProduct(product));
+    }
+
+    @GetMapping("/{id}")
+    public Product findProductById(@PathVariable(value = "id") Long id){
+        return productServiceImpl.getProductById(id);
     }
 }

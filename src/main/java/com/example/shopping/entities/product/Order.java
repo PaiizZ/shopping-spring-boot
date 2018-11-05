@@ -27,5 +27,8 @@ public class Order {
     private Float price;
 
     @Column
-    private Float discount;
+    private Float percentDiscount;
+
+    @Column
+    private Float bahtDiscount;
 }

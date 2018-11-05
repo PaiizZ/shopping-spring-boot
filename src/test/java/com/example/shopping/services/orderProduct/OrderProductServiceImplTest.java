@@ -50,7 +50,7 @@ public class OrderProductServiceImplTest {
 
         User user = new User().setUsername("paiizz").setPassword("1234");
 
-        Order order = new Order().setUser(user).setPrice(20F).setDiscount(0F);
+        Order order = new Order().setUser(user).setPrice(20F).setPercentDiscount(0F);
 
         OrderProduct orderProduct1 = new OrderProduct();
         orderProduct1.setOrder(order).setProduct(product1).setAmount(2).setPrice(20F);

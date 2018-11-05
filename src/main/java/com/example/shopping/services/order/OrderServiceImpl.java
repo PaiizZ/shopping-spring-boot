@@ -22,9 +22,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Order createOrder(Long user_id) {
-        Order order = new Order().setUser(userServiceImpl.getUserById(user_id)).setPrice(0F).setDiscount(0F);
+        Order order = new Order().setUser(userServiceImpl.getUserById(user_id)).setPrice(0F).setPercentDiscount(0F).setBahtDiscount(0F);
         if (this.getCountOrderByUserId(order.getUser().getId()) > DISCOUNT_THRESHOLD ) {
-            order.setDiscount(DISCOUNT_PERCENT);
+            order.setPercentDiscount(DISCOUNT_PERCENT);
         }
         return orderRepository.save(order);
     }
