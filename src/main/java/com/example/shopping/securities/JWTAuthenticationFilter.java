@@ -1,7 +1,7 @@
 package com.example.shopping.securities;
 
 import com.auth0.jwt.JWT;
-import com.example.shopping.entities.shopping.User;
+import com.example.shopping.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

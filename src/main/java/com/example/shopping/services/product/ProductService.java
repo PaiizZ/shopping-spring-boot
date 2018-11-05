@@ -1,6 +1,6 @@
 package com.example.shopping.services.product;
 
-import com.example.shopping.entities.shopping.Product;
+import com.example.shopping.entities.Product;
 
 public interface ProductService {
     Product createProduct(Product product);

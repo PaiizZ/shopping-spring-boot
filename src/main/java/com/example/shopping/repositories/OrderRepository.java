@@ -1,6 +1,6 @@
 package com.example.shopping.repositories;
 
-import com.example.shopping.entities.shopping.Order;
+import com.example.shopping.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

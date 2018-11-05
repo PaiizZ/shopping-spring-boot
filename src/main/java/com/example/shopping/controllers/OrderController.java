@@ -1,7 +1,7 @@
 package com.example.shopping.controllers;
 
 import com.example.shopping.wrappers.CreateOrderRequest;
-import com.example.shopping.entities.shopping.Order;
+import com.example.shopping.entities.Order;
 import com.example.shopping.services.order.OrderServiceImpl;
 import com.example.shopping.services.orderProduct.OrderProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
