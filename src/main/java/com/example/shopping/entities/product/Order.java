@@ -1,5 +1,7 @@
 package com.example.shopping.entities.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,6 +16,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column
+    @JsonProperty("order_id")
     private Long id;
 
     @ManyToOne

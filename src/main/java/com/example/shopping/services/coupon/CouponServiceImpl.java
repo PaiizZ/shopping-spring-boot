@@ -1,21 +1,24 @@
 package com.example.shopping.services.coupon;
 
+import com.example.shopping.coupon.CouponStrategy;
+import com.example.shopping.coupon.CouponStrategyFactory;
 import com.example.shopping.entities.coupon.Coupon;
 import com.example.shopping.entities.product.Order;
-import com.example.shopping.entities.product.OrderProduct;
 import com.example.shopping.repositories.coupon.CouponRepository;
+import com.example.shopping.services.order.OrderService;
 import com.example.shopping.wrappers.CreateOrderRequest;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static com.example.shopping.configs.constant.OrderConstants.COUPON_AMOUNT;
-import static com.example.shopping.configs.constant.OrderConstants.COUPON_PRICE;
 
 
 @Service
 public class CouponServiceImpl implements CouponService {
     @Autowired
     private CouponRepository couponRepository;
+
+    @Autowired
+    private OrderService orderServiceImpl;
 
     @Override
     public Coupon createCoupon(Coupon coupon) {
@@ -24,19 +27,12 @@ public class CouponServiceImpl implements CouponService {
 
     public Order setBahtDiscount(Order order, CreateOrderRequest createOrderRequest) {
         Coupon coupon = couponRepository.findByCode(createOrderRequest.getCodeDiscount()).orElseThrow(() -> new RuntimeException());
-        if (coupon.getType().equals(COUPON_PRICE)) {
-            if (order.getPrice() >= coupon.getThreshold()){
-                order.setBahtDiscount(coupon.getDiscount());
-            }
-        } else if (coupon.getType().equals(COUPON_AMOUNT)) {
-            int amount = 0;
-            for(CreateOrderRequest.ProductRequest productRequest : createOrderRequest.getProductRequestList()){
-                amount += productRequest.getAmount();
-            }
-            if (amount >= coupon.getThreshold()) {
-                order.setBahtDiscount(coupon.getDiscount());
-            }
-        }
+        CouponStrategyFactory couponStrategyFactory = new CouponStrategyFactory();
+        CouponStrategy couponStrategy = couponStrategyFactory.createCouponStategy(coupon.getType());
+        Pair<String,Float> discount = couponStrategy.checkCouponThreshold(order, coupon);
+        if (discount.getKey().equals("Price")) order.setBahtDiscount(discount.getValue());
+        else order.setPercentDiscount(discount.getValue());
+        orderServiceImpl.updateOrder(order.getId(),order);
         return order;
     }
 }

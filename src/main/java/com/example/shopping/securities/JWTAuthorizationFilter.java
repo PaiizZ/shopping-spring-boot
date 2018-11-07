@@ -2,6 +2,9 @@ package com.example.shopping.securities;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.example.shopping.services.redis.RedisService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +21,11 @@ import static com.example.shopping.configs.constant.SecurityConstants.HEADER_STR
 import static com.example.shopping.configs.constant.SecurityConstants.SECRET;
 import static com.example.shopping.configs.constant.SecurityConstants.TOKEN_PREFIX;
 
+@Slf4j
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+
+    @Autowired
+    private RedisService redisService;
 
     public JWTAuthorizationFilter(AuthenticationManager authManager) {
         super(authManager);
@@ -29,8 +36,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
-
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+        String[] token = header.split(" ");
+        System.out.println(HEADER_STRING);
+//        System.out.println(redisService.isBlackList(token[1]));
+//        System.out.println(!redisService.isBlackList(token[1]));
+        if (header == null || !header.startsWith(TOKEN_PREFIX) && !redisService.isBlackList(token[1])) {
             chain.doFilter(req, res);
             return;
         }

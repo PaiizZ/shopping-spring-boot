@@ -1,6 +1,7 @@
 package com.example.shopping.services.order;
 
 import com.example.shopping.entities.product.Order;
+import com.example.shopping.exceptions.OrderNotFoundException;
 import com.example.shopping.repositories.product.OrderRepository;
 import com.example.shopping.services.user.UserService;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,14 @@ public class OrderServiceImpl implements OrderService{
             order.setPercentDiscount(DISCOUNT_PERCENT);
         }
         return orderRepository.save(order);
+    }
+
+    @Override
+    public Order updateOrder(Long id, Order order) {
+        return orderRepository.findById(id).map(it -> {
+            it.setBahtDiscount(order.getBahtDiscount());
+            return orderRepository.save(it);
+        }).orElseThrow(() -> new OrderNotFoundException("Order Not Found."));
     }
 
     @Override

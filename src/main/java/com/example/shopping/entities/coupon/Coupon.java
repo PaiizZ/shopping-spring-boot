@@ -22,19 +22,14 @@ public class Coupon {
     private String type;
 
     @Column
-    private Float threshold;
+    private Float thresholdPrice;
+
+    @Column
+    private Float thresholdQuantity;
+
+    @Column
+    private String discountType;
 
     @Column
     private Float discount;
-
-    @Override
-    public String toString() {
-        return "Coupon{" +
-                "id=" + id +
-                ", code='" + code + '\'' +
-                ", type='" + type + '\'' +
-                ", threshold=" + threshold +
-                ", discount=" + discount +
-                '}';
-    }
 }

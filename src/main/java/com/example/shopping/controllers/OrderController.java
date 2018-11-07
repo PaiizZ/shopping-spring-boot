@@ -1,5 +1,6 @@
 package com.example.shopping.controllers;
 
+import com.example.shopping.services.order.OrderService;
 import com.example.shopping.wrappers.CreateOrderRequest;
 import com.example.shopping.entities.product.Order;
 import com.example.shopping.services.order.OrderServiceImpl;
@@ -18,9 +19,9 @@ public class OrderController {
     @Autowired
     private OrderProductServiceImpl orderProductServiceImpl;
 
-    private final OrderServiceImpl orderServiceImpl;
+    private final OrderService orderServiceImpl;
 
-    public OrderController(OrderServiceImpl orderServiceImpl) {
+    public OrderController(OrderService orderServiceImpl) {
         this.orderServiceImpl = orderServiceImpl;
     }
 

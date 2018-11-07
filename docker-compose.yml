@@ -4,8 +4,6 @@ services:
     container_name: shopping_db
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    expose:
-      - 3306
     ports:
       - 3306:3306
     environment:
@@ -19,16 +17,12 @@ services:
       - db
     links:
       - db
-    expose:
-      - 80
     ports:
       - 9999:80
-#  redis:
-#    container_name: shopping_redis
-#    image: redis
-#    expose:
-#    - 3308
-#    ports:
-#    - 9998:3308
+  redis:
+    container_name: shopping_redis
+    image: redis
+    ports:
+      - 6379:6379
 
 
