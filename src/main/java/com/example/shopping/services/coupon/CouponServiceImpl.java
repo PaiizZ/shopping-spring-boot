@@ -29,9 +29,8 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = couponRepository.findByCode(createOrderRequest.getCodeDiscount()).orElseThrow(() -> new RuntimeException());
         CouponStrategyFactory couponStrategyFactory = new CouponStrategyFactory();
         CouponStrategy couponStrategy = couponStrategyFactory.createCouponStategy(coupon.getType());
-        Pair<String,Float> discount = couponStrategy.checkCouponThreshold(order, coupon);
-        if (discount.getKey().equals("Price")) order.setBahtDiscount(discount.getValue());
-        else order.setPercentDiscount(discount.getValue());
+        Pair<String,Float> discount = couponStrategy.applyCoupon(order, coupon);
+        order.setDiscountByType(discount);
         orderServiceImpl.updateOrder(order.getId(),order);
         return order;
     }

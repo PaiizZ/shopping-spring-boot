@@ -7,9 +7,9 @@ import static com.example.shopping.configs.constant.OrderConstants.COUPON_QUANTI
 public class CouponStrategyFactory {
     public CouponStrategy createCouponStategy(String couponType){
         switch (couponType) {
-            case COUPON_PRICE: return new DiscountPriceStrategy();
-            case COUPON_QUANTITY: return new DiscountQuantityStrategy();
-            case COUPON_PRICE_QUANTITY: return new DiscountPriceAndQuantityStrategy();
+            case COUPON_PRICE: return DiscountPriceStrategy.getInstance();
+            case COUPON_QUANTITY: return DiscountQuantityStrategy.getInstance();
+            case COUPON_PRICE_QUANTITY: return DiscountPriceAndQuantityStrategy.getInstance();
             default: return null;
         }
     }

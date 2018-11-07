@@ -5,5 +5,6 @@ import com.example.shopping.entities.product.Order;
 import javafx.util.Pair;
 
 public interface CouponStrategy {
-    Pair<String,Float> checkCouponThreshold(Order order, Coupon coupon);
+    boolean checkCouponThreshold(Order order, Coupon coupon);
+    Pair<String,Float> applyCoupon(Order order, Coupon coupon);
 }
