@@ -22,8 +22,8 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order createOrder(Long user_id) {
-        Order order = new Order().setUser(userServiceImpl.getUserById(user_id)).setPrice(0F).setPercentDiscount(0F).setBahtDiscount(0F);
+    public Order createOrder(Long userId) {
+        Order order = new Order().setUser(userServiceImpl.getUserById(userId)).setPrice(0F).setPercentDiscount(0F).setBahtDiscount(0F);
         if (this.getCountOrderByUserId(order.getUser().getId()) > DISCOUNT_THRESHOLD ) {
             order.setPercentDiscount(DISCOUNT_PERCENT);
         }

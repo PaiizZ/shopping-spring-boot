@@ -16,9 +16,12 @@ public class CouponServiceImpl implements CouponService {
 
     private OrderService orderService;
 
-    public CouponServiceImpl(CouponRepository couponRepository, OrderService orderService) {
+    private CouponStrategyFactory couponStrategyFactory;
+
+    public CouponServiceImpl(CouponRepository couponRepository, OrderService orderService, CouponStrategyFactory couponStrategyFactory) {
         this.couponRepository = couponRepository;
         this.orderService = orderService;
+        this.couponStrategyFactory = couponStrategyFactory;
     }
 
     @Override
@@ -28,8 +31,7 @@ public class CouponServiceImpl implements CouponService {
 
     public Order setBahtDiscount(Order order, CreateOrderRequest createOrderRequest) {
         Coupon coupon = couponRepository.findByCode(createOrderRequest.getCodeDiscount()).orElseThrow(() -> new RuntimeException());
-        CouponStrategyFactory couponStrategyFactory = new CouponStrategyFactory();
-        CouponStrategy couponStrategy = couponStrategyFactory.createCouponStategy(coupon.getType());
+        CouponStrategy couponStrategy = couponStrategyFactory.createCouponStrategy(coupon.getType());
         Pair<String,Float> discount = couponStrategy.applyCoupon(order, coupon);
         order.setDiscountByType(discount);
         orderService.updateOrder(order.getId(),order);

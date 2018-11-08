@@ -9,6 +9,7 @@ import com.example.shopping.entities.product.Product;
 import com.example.shopping.entities.product.User;
 import com.example.shopping.repositories.coupon.CouponRepository;
 import com.example.shopping.services.order.OrderService;
+import com.example.shopping.wrappers.CreateOrderRequest;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +46,7 @@ public class CouponServiceImplTest {
 
     @Before
     public void setup(){
-        this.couponService = new CouponServiceImpl(couponRepository,orderService);
+        this.couponService = new CouponServiceImpl(couponRepository,orderService,couponStrategyFactory);
         this.coupon = new Coupon().setId(1L).setCode("SME").setType("Price").setDiscountType("Price").setDiscount(200F).setThresholdQuantity(5F);
 
         this.user = new User().setUsername("paiizz").setPassword("1234");
@@ -56,7 +57,7 @@ public class CouponServiceImplTest {
 
         this.orderProductWater = new OrderProduct().setOrder(this.order).setProduct(
                 new Product().setName("Water").setPrice(10F)
-        ).setAmount(2).setPrice(10F);
+        ).setAmount(5).setPrice(10F);
 
         this.order = new Order().setUser(this.user).setOrderProductList(
                 Arrays.asList(
@@ -74,7 +75,7 @@ public class CouponServiceImplTest {
         when(couponRepository.save(any())).thenReturn(this.coupon);
 
         //Act
-        Coupon couponResponse = this.couponService.createCoupon(any());
+        Coupon couponResponse = couponService.createCoupon(any());
 
         //Assert
         assertThat(couponResponse).isNotNull();
@@ -91,8 +92,43 @@ public class CouponServiceImplTest {
     @Test
     public void setBahtDiscount() {
         //Arrange
-       
+        when(couponRepository.findByCode(any())).thenReturn(Optional.of(this.coupon));
+        when(couponStrategyFactory.createCouponStrategy(any())).thenReturn(discountPriceStrategy);
+        when(discountPriceStrategy.applyCoupon(any(),any())).thenReturn(new Pair<String, Float>("Price",200F));
+        when(orderService.updateOrder(any(),any())).thenReturn(this.order);
 
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest();
+        createOrderRequest.setCodeDiscount("SME");
+        createOrderRequest.setProductRequestList(
+                Arrays.asList(
+                        new CreateOrderRequest.ProductRequest().setId(1L).setAmount(1),
+                        new CreateOrderRequest.ProductRequest().setId(2L).setAmount(5)
+                )
+        );
 
+        //Act
+        Order orderResponse = couponService.setBahtDiscount(this.order,createOrderRequest);
+
+        //Assert
+        assertThat(orderResponse).isNotNull();
+
+        assertThat(orderResponse.getUser().getUsername()).isEqualTo("paiizz");
+        assertThat(orderResponse.getUser().getPassword()).isEqualTo("1234");
+
+        assertThat(orderResponse.getOrderProductList().get(0).getProduct().getName()).isEqualTo("Pizza");
+        assertThat(orderResponse.getOrderProductList().get(0).getProduct().getPrice()).isEqualTo(299F);
+        assertThat(orderResponse.getOrderProductList().get(0).getAmount()).isEqualTo(1);
+        assertThat(orderResponse.getOrderProductList().get(0).getPrice()).isEqualTo(299F);
+
+        assertThat(orderResponse.getOrderProductList().get(1).getProduct().getName()).isEqualTo("Water");
+        assertThat(orderResponse.getOrderProductList().get(1).getProduct().getPrice()).isEqualTo(10F);
+        assertThat(orderResponse.getOrderProductList().get(1).getAmount()).isEqualTo(5);
+        assertThat(orderResponse.getOrderProductList().get(1).getPrice()).isEqualTo(10F);
+
+        assertThat(orderResponse.getPercentDiscount()).isEqualTo(0F);
+        assertThat(orderResponse.getBahtDiscount()).isEqualTo(200F);
+
+        verify(couponRepository, times(1)).findByCode(any());
+        verify(orderService, times(1)).updateOrder(any(),any());
     }
 }
