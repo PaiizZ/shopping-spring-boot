@@ -5,6 +5,7 @@ import com.example.shopping.entities.product.Order;
 import com.example.shopping.entities.product.OrderProduct;
 import javafx.util.Pair;
 
+
 public class DiscountQuantityStrategy extends DiscountStrategy implements CouponStrategy {
     private static DiscountQuantityStrategy instance;
 
