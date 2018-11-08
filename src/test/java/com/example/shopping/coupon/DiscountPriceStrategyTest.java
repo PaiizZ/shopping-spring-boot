@@ -50,7 +50,7 @@ public class DiscountPriceStrategyTest {
         Pair<String,Float> discount = new Pair<>("Baht",100F);
 
         doReturn(true).when(couponStrategySpy).checkCouponThreshold(any(),any());
-//        when(discountStrategy.getDiscountByType(any())).thenReturn(discount);
+        when(discountStrategy.getDiscountByType(any())).thenReturn(discount);
 
         Pair<String, Float> result = couponStrategySpy.applyCoupon(order, coupon);
 
