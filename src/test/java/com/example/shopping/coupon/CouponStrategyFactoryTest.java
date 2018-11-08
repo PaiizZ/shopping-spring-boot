@@ -3,28 +3,16 @@ package com.example.shopping.coupon;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static com.example.shopping.configs.constant.OrderConstants.COUPON_PRICE;
 import static com.example.shopping.configs.constant.OrderConstants.COUPON_PRICE_QUANTITY;
 import static com.example.shopping.configs.constant.OrderConstants.COUPON_QUANTITY;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CouponStrategyFactoryTest {
-    
-    @Mock
-    private DiscountPriceStrategy discountPriceStrategy;
-    
-    @Mock
-    private DiscountQuantityStrategy discountQuantityStrategy;
-    
-    @Mock
-    private DiscountPriceAndQuantityStrategy discountPriceAndQuantityStrategy;
-    
+
     private CouponStrategyFactory couponStrategyFactory;
     
     @Before
@@ -33,13 +21,23 @@ public class CouponStrategyFactoryTest {
     }
     
     @Test
-    public void createCouponStrategySuccessfullyByCouponType() {
-        //Arrange
-//        when(couponStrategyFactory.createCouponStrategy(anyString())).thenReturn(discountPriceStrategy);
-//        when(couponStrategyFactory.createCouponStrategy(COUPON_QUANTITY)).thenReturn(discountQuantityStrategy);
-//        when(couponStrategyFactory.createCouponStrategy(COUPON_PRICE_QUANTITY)).thenReturn(discountPriceAndQuantityStrategy);
-        
-        //Act
-        
+    public void createCouponStrategySuccessfullyByCouponTypePrice() {
+        CouponStrategy getFromFactory = couponStrategyFactory.createCouponStrategy(COUPON_PRICE);
+
+        assertThat(getFromFactory.getClass()).isEqualTo(DiscountPriceStrategy.class);
+    }
+
+    @Test
+    public void createCouponStrategySuccessfullyByCouponTypeQuantity() {
+        CouponStrategy getFromFactory = couponStrategyFactory.createCouponStrategy(COUPON_QUANTITY);
+
+        assertThat(getFromFactory.getClass()).isEqualTo(DiscountQuantityStrategy.class);
+    }
+
+    @Test
+    public void createCouponStrategySuccessfullyByCouponTypePriceAndQuantity() {
+        CouponStrategy getFromFactory = couponStrategyFactory.createCouponStrategy(COUPON_PRICE_QUANTITY);
+
+        assertThat(getFromFactory.getClass()).isEqualTo(DiscountPriceAndQuantityStrategy.class);
     }
 }
