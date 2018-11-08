@@ -8,17 +8,18 @@ import com.example.shopping.repositories.coupon.CouponRepository;
 import com.example.shopping.services.order.OrderService;
 import com.example.shopping.wrappers.CreateOrderRequest;
 import javafx.util.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class CouponServiceImpl implements CouponService {
-    @Autowired
     private CouponRepository couponRepository;
 
-    @Autowired
-    private OrderService orderServiceImpl;
+    private OrderService orderService;
+
+    public CouponServiceImpl(CouponRepository couponRepository, OrderService orderService) {
+        this.couponRepository = couponRepository;
+        this.orderService = orderService;
+    }
 
     @Override
     public Coupon createCoupon(Coupon coupon) {
@@ -31,7 +32,7 @@ public class CouponServiceImpl implements CouponService {
         CouponStrategy couponStrategy = couponStrategyFactory.createCouponStategy(coupon.getType());
         Pair<String,Float> discount = couponStrategy.applyCoupon(order, coupon);
         order.setDiscountByType(discount);
-        orderServiceImpl.updateOrder(order.getId(),order);
+        orderService.updateOrder(order.getId(),order);
         return order;
     }
 }

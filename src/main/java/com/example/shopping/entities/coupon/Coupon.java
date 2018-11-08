@@ -22,6 +22,9 @@ public class Coupon {
     private String type;
 
     @Column
+    private Integer amount;
+
+    @Column
     private Float thresholdPrice;
 
     @Column

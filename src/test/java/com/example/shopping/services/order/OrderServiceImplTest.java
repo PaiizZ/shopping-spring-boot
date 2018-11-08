@@ -35,7 +35,7 @@ public class OrderServiceImplTest {
 
     private User user;
     private Order order;
-    private OrderProduct orderProductPizza, orderProductWater, orderProductChocolate;
+    private OrderProduct orderProductPizza, orderProductWater;
     private List<Order> orderList = new ArrayList<>();
 
     @Before
