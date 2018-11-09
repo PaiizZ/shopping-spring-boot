@@ -4,6 +4,7 @@ import com.example.shopping.entities.product.Order;
 import com.example.shopping.exceptions.OrderNotFoundException;
 import com.example.shopping.repositories.product.OrderRepository;
 import com.example.shopping.services.user.UserService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +41,11 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<Order> getOrderByUserId(Long id) {
-        return orderRepository.findAllByUserId(id);
+        List<Order> orderList = orderRepository.findAllByUserId(id);
+        for (Order order : orderList) {
+            order.getOrderProductList().size();
+        }
+        return orderList;
     }
 
 
